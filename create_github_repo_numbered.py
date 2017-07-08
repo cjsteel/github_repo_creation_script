@@ -2,22 +2,17 @@ import argparse
 from github import Github
 
 #list of allowed prefixes for repos
-# ansible-role - ansible-role
 #p - project
 #s - software
-#r - ansible role
 #h - hardware
 #u - utilities/scripts etc.
 #lib - libraries, reusable stuff
 #feel free to add to this list as needed
 
-repo_type_list = ['ansible-role', 'p', 's', 'h', 'u', 'lib']
+repo_type_list = ['p', 's', 'h', 'u', 'lib']
 
-token_file = '/home/user/.private/github_repo_token'
-with open(token_file, 'r') as myfile:
-    token=myfile.read().replace('\n', '')
-
-# token = ""
+#github token, create your own from the settings page in github
+token = "INSERT_USER_TOKEN_HERE"
 
 #init argparser
 parser = argparse.ArgumentParser(description='Create new github repo.')
@@ -50,26 +45,23 @@ for repo in g.get_user().get_repos():
         #find number after prefix but before first underscore
         repo_number = filter(str.isdigit, repo_name.split('_')[0])
         
-#        if repo_number != '':
-#            #if number is found, add to list of repo numbers for that prefix
-#            existing_repo_list[[prefix for prefix in repo_type_list if repo_name.startswith(prefix)][0]].append(int(repo_number))
+        if repo_number != '':
+            #if number is found, add to list of repo numbers for that prefix
+            existing_repo_list[[prefix for prefix in repo_type_list if repo_name.startswith(prefix)][0]].append(int(repo_number))
 
 #check for spaces in repo name, which is a hassle
 if ' ' in results.name:
     print("repo name cannot contain spaces, use _ (underscore) instead.")
     exit()
 
-# change to check for suffix
-#
 #check if repo with that prefix exists from before and if it does, up number by 1
-#if len(existing_repo_list[results.type])>0:
-#    new_repo_number = max(existing_repo_list[results.type])+1
-#else:
-#    new_repo_number = 1
+if len(existing_repo_list[results.type])>0:
+    new_repo_number = max(existing_repo_list[results.type])+1
+else:
+    new_repo_number = 1
 
 #form name for new repo
-#new_repo_name = "{0}{1}_{2}".format(results.type, str(new_repo_number).zfill(3), results.name)
-new_repo_name = "{0}-{1}".format(results.type, results.name)
+new_repo_name = "{0}{1}_{2}".format(results.type, str(new_repo_number).zfill(3), results.name)
 
 #ask if this is the repo name we want
 create_repo = raw_input(("Create repo {} ? yes for yes: ".format(new_repo_name))).strip()

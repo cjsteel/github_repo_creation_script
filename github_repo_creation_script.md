@@ -1,24 +1,4 @@
 # github_repo_creation_script
-
-
-## Description
-
-This is a cloned and simplified version of a script found here:
-
-```shell
-https://github.com/andlier/github_repo_creation_script
-```
-
-### New action
-
-The following command creates a repository called **ansible-role-rolename**
-
-```shell
-python create_github_repo.py --type ansible-role --name rolename -d "This is a test called rolename for testing this script"
-```
-
-
-
 Dead simple python script for creating new github repositories while enforcing repository naming convention and taking care of unique naming/numbering scheme.
 
 ## Requirements
@@ -68,6 +48,12 @@ Create a new repo:
 
 ```shell
 c:>python create_github_repo.py --type p --name repo_creating_script_test_repo -d "This is a test repo for repo creating script"
+```
+
+Custome example
+
+```shell
+python create_github_repo.py --type ansible-role --name template -d "This is a test repo for repo creating script"
 ```
 
 
